@@ -1,0 +1,25 @@
+@page "/login-providers"
+
+@{
+    var providers = new (string Name, string Button, string Icon, string Endpoint)[]
+    {
+        ("GitHub", "github", "github", "github"),
+        ("Twitter", "twitter", "twitter", "twitter"),
+        ("Azure Active Directory", "microsoft", "windows", "aad")
+    };
+}
+
+<h1>Login</h1>
+
+<div class="container">
+    @foreach(var provider in providers)
+    {
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-6">
+                <a class="btn btn-block btn-lg btn-social btn-@provider.Button" href="/.auth/login/@provider.Endpoint">
+                    <span class="fa fa-@provider.Icon"></span> Sign in with @provider.Name
+                </a>
+            </div>
+        </div>
+    }
+</div>

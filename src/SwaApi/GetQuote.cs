@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -17,9 +18,16 @@ namespace SwaApi
         public static async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest req,
-            ILogger log)
+            ILogger log,
+            ClaimsPrincipal principal)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
+
+            if (principal == null || !principal.Identity.IsAuthenticated)
+                return new UnauthorizedResult();
+
+            if (!principal.IsInRole("admin"))
+                return new ForbidResult();
 
             string name = req.Query["name"];
 
