@@ -1,13 +1,48 @@
-using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace SwaApi.Tests
 {
-    public class UnitTest1
+    public class UnitTest1 : TestBase
     {
-        [Fact]
-        public void Test1()
+        private readonly GetQuote _sut;
+
+        public UnitTest1(ITestOutputHelper outputHelper)
+            : base(outputHelper)
         {
+            _sut = new GetQuote(HttpClient);
+        }
+
+        [Fact]
+        public async Task Test1()
+        {
+            // Arrange
+            var principal = CreateAuthedPrincipal(new Claim(ClaimTypes.Role, "admin"));
+            var request = CreateRequest(new Dictionary<string, string>
+            {
+                ["name"] = "Matthias"
+            });
+
+            // Act
+            var response = await _sut.RunAsync(request, TestLogger, principal);
+
+            // Assert
+            var result = response.Should().BeOfType<OkObjectResult>().Subject;
+            result.Value.Should().BeOfType<string>().Which
+                .Should().NotBeEmpty();
         }
     }
 }

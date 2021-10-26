@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaApi", "src\SwaApi\SwaApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaApi.Tests", "src\SwaApi.Tests\SwaApi.Tests.csproj", "{8DB79D50-E6DA-4DDC-9018-D0E10BC5A450}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaApp.Tests", "src\SwaApp.Tests\SwaApp.Tests.csproj", "{052A87D1-57BF-4350-B1FA-0ABE3C04BABF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{8DB79D50-E6DA-4DDC-9018-D0E10BC5A450}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DB79D50-E6DA-4DDC-9018-D0E10BC5A450}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DB79D50-E6DA-4DDC-9018-D0E10BC5A450}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052A87D1-57BF-4350-B1FA-0ABE3C04BABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052A87D1-57BF-4350-B1FA-0ABE3C04BABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052A87D1-57BF-4350-B1FA-0ABE3C04BABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052A87D1-57BF-4350-B1FA-0ABE3C04BABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
