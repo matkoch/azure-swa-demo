@@ -1,0 +1,7 @@
+{
+  "$schema": "./build.schema.json",
+  "Solution": "SwaDemo2.sln",
+  "Location": "westeurope",
+  "ResourceGroup": "TEST",
+  "Provider": "GitHub"
+}

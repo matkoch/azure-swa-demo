@@ -8,12 +8,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaApi.Tests", "src\SwaApi.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaApp.Tests", "src\SwaApp.Tests\SwaApp.Tests.csproj", "{052A87D1-57BF-4350-B1FA-0ABE3C04BABF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{466DD914-B781-4364-8E22-15758201DBA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{466DD914-B781-4364-8E22-15758201DBA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{466DD914-B781-4364-8E22-15758201DBA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F92D6C04-8F17-436B-8271-EA56839C525D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F92D6C04-8F17-436B-8271-EA56839C525D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F92D6C04-8F17-436B-8271-EA56839C525D}.Release|Any CPU.ActiveCfg = Release|Any CPU

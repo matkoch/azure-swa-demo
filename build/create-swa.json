@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "defaultValue": "SwaDemo",
+      "type": "String"
+    },
+    "location": {
+      "defaultValue": "West Europe",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/staticSites",
+      "apiVersion": "2021-02-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Free",
+        "tier": "Free"
+      },
+      "properties": {
+        "stagingEnvironmentPolicy": "Enabled",
+        "allowConfigFileUpdates": true
+      }
+    }
+  ]
+}

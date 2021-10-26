@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nuke-build/nuke/master/source/Nuke.CodeGeneration/schema.json",
+  "name": "Az",
+  "officialUrl": "",
+  "pathExecutable": "az",
+  "tasks": [
+    {
+      "postfix": "StaticWebAppUsersInvite",
+      "returnType": "string",
+      "preProcess": true,
+      "definiteArgument": "staticwebapp users invite",
+      "settingsClass": {
+        "properties": [
+          {
+            "name": "Name",
+            "type": "string",
+            "format": "--name {value}"
+          },
+          {
+            "name": "AuthenticationProvider",
+            "type": "AzAuthenticationProvider",
+            "format": "--authentication-provider {value}"
+          },
+          {
+            "name": "Roles",
+            "type": "List<string>",
+            "format": "--roles {value}",
+            "separator": ","
+          },
+          {
+            "name": "UserDetails",
+            "type": "string",
+            "format": "--user-details {value}"
+          },
+          {
+            "name": "Domain",
+            "type": "string",
+            "format": "--domain {value}"
+          },
+          {
+            "name": "InvitationExpirationInHours",
+            "type": "int",
+            "format": "--invitation-expiration-in-hours {value}"
+          }
+        ]
+      }
+    },
+    {
+      "postfix": "DeploymentGroupCreate",
+      "definiteArgument": "deployment group create",
+      "preProcess": true,
+      "settingsClass": {
+        "properties": [
+          {
+            "name": "ResourceGroup",
+            "type": "string",
+            "format": "--resource-group {value}"
+          },
+          {
+            "name": "TemplateFile",
+            "type": "string",
+            "format": "--template-file {value}"
+          },
+          {
+            "name": "Parameters",
+            "type": "Dictionary<string, string>",
+            "format": "--parameters {value}",
+            "itemFormat": "{key}={value}",
+            "separator": " "
+          }
+        ]
+      }
+    }
+  ],
+  "enumerations": [
+    {
+      "name": "AzAuthenticationProvider",
+      "values": [
+        "AAD",
+        "Facebook",
+        "GitHub",
+        "Google",
+        "Twitter"
+      ]
+    }
+  ]
+}

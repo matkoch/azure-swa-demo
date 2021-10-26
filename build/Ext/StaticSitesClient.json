@@ -1,0 +1,166 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nuke-build/nuke/master/source/Nuke.CodeGeneration/schema.json",
+  "name": "StaticSitesClient",
+  "officialUrl": "",
+  "tasks": [
+    {
+      "definiteArgument": "run",
+      "settingsClass": {
+        "properties": [
+          {
+            "name": "Verbose",
+            "type": "bool",
+            "format": "--verbose",
+            "help": "Enables verbose logging."
+          },
+          {
+            "name": "BuildTimeoutInMinutes",
+            "type": "int",
+            "format": "--buildTimeoutInMinutes {value}",
+            "help": "Time limit of oryx build in minutes."
+          },
+          {
+            "name": "AppLocation",
+            "type": "string",
+            "format": "--app {value}",
+            "help": "Directory of app source code."
+          },
+          {
+            "name": "ApiLocation",
+            "type": "string",
+            "format": "--api {value}",
+            "help": "Directory of api source code."
+          },
+          {
+            "name": "RoutesLocation",
+            "type": "string",
+            "format": "--routesLocation {value}",
+            "help": "Path to the routes file."
+          },
+          {
+            "name": "ConfigFileLocation",
+            "type": "string",
+            "format": "--configFileLocation {value}",
+            "help": "Path to the staticwebapp.config.json file."
+          },
+          {
+            "name": "OutputLocation",
+            "type": "string",
+            "format": "--outputLocation {value}",
+            "help": "Directory of built application artifacts."
+          },
+          {
+            "name": "AppArtifactLocation",
+            "type": "string",
+            "format": "--appArtifactLocation {value}",
+            "help": "Directory of built application artifacts."
+          },
+          {
+            "name": "EventJsonPath",
+            "type": "string",
+            "format": "--event {value}",
+            "help": "Filepath of the event json."
+          },
+          {
+            "name": "ApiToken",
+            "type": "string",
+            "format": "--apiToken {value}",
+            "secret": true,
+            "help": "ApiToken."
+          },
+          {
+            "name": "RepoToken",
+            "type": "string",
+            "format": "--repoToken {value}",
+            "secret": true,
+            "help": "RepoToken."
+          },
+          {
+            "name": "OryxEnabled",
+            "type": "bool",
+            "format": "--oryxEnabled",
+            "help": "Deprecated."
+          },
+          {
+            "name": "AppBuildCommand",
+            "type": "string",
+            "format": "--appBuildCommand {value}",
+            "help": "App Build Command."
+          },
+          {
+            "name": "ApiBuildCommand",
+            "type": "string",
+            "format": "--apiBuildCommand {value}",
+            "help": "Api Build Command."
+          },
+          {
+            "name": "DeploymentProvider",
+            "type": "StaticSitesClientDeploymentProvider",
+            "format": "--deploymentProvider {value}",
+            "help": "Deployment provider."
+          },
+          {
+            "name": "SkipAppBuild",
+            "type": "bool",
+            "format": "--skipAppBuild",
+            "help": "Skips Oryx build for app folder."
+          },
+          {
+            "name": "DeploymentAction",
+            "type": "StaticSitesClientDeploymentAction",
+            "format": "--deploymentaction {value}",
+            "help": "Specifies the action to run."
+          },
+          {
+            "name": "RepositoryUrl",
+            "type": "string",
+            "format": "--repositoryUrl {value}",
+            "help": "Repository Url."
+          },
+          {
+            "name": "EnvironmentName",
+            "type": "string",
+            "format": "--environmentName {value}",
+            "help": "Environment Name."
+          },
+          {
+            "name": "Branch",
+            "type": "string",
+            "format": "--branch {value}",
+            "help": "Branch."
+          },
+          {
+            "name": "PullRequestTitle",
+            "type": "string",
+            "format": "--pullRequestTitle {value}",
+            "help": "Pull request title for staging sites."
+          },
+          {
+            "name": "HeadBranch",
+            "type": "string",
+            "format": "--headBranch {value}",
+            "help": "Head branch name for staging sites."
+          }
+        ]
+      }
+    }
+  ],
+  "enumerations": [
+    {
+      "name": "StaticSitesClientDeploymentProvider",
+      "values": [
+        "GitHub",
+        "DevOps",
+        "GitLab",
+        "Custom"
+      ]
+    },
+    {
+      "name": "StaticSitesClientDeploymentAction",
+      "values": [
+        "upload",
+        "run"
+      ]
+    }
+  ]
+}
