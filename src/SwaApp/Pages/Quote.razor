@@ -1,0 +1,19 @@
+@page "/quote"
+@using Microsoft.AspNetCore.Authorization
+@inject HttpClient Http
+@* @attribute [Authorize(Roles = "admin")] *@
+
+<h1>Quote</h1>
+
+<p>@result</p>
+
+@code {
+    private string result = "loading...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetStringAsync("/api/GetQuote");
+        result = response.ToString();
+    }
+
+}
