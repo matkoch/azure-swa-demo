@@ -1,25 +1,30 @@
-using System;
-using System.IO;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace SwaApi
 {
-    public static class GetQuote
+    public class GetQuote
     {
+        private readonly HttpClient _client;
+
+        public GetQuote(HttpClient client)
+        {
+            _client = client;
+        }
+
         [FunctionName("GetQuote")]
-        public static async Task<IActionResult> RunAsync(
+        public async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest req,
+            HttpRequest request,
             ILogger log,
-            ClaimsPrincipal principal)
+            [StaticWebAppsPrincipal] ClaimsPrincipal principal)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
@@ -27,18 +32,16 @@ namespace SwaApi
                 return new UnauthorizedResult();
 
             if (!principal.IsInRole("admin"))
-                return new ForbidResult();
+                return new ForbidResult(principal.Identity.AuthenticationType);
 
-            string name = req.Query["name"];
+            var response = await _client.GetAsync("https://quotes.rest/qod");
+            if (!response.IsSuccessStatusCode)
+                return new OkObjectResult("Out of quotes for another hour! :(");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
-
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
-
+            var content = await response.Content.ReadAsStringAsync();
+            dynamic json = JsonConvert.DeserializeObject(content);
+            string quote = json.contents.quotes[0].quote;
+            return new OkObjectResult(quote);
         }
     }
 }
