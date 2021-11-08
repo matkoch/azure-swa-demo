@@ -4,3 +4,6 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 local.settings.json
+ss-oryx/
+output/
+.nuke/temp
