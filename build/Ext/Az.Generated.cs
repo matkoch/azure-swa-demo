@@ -35,7 +35,7 @@ public static partial class AzTasks
     /// </summary>
     public static IReadOnlyCollection<Output> Az(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, bool? logTimestamp = null, string logFile = null, Func<string, string> outputFilter = null)
     {
-        using var process = ProcessTasks.StartProcess(AzPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, logTimestamp, logFile, AzLogger, outputFilter);
+        using var process = ProcessTasks.StartProcess(AzPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, AzLogger, outputFilter);
         process.AssertZeroExitCode();
         return process.Output;
     }

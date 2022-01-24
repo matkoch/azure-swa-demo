@@ -4,5 +4,5 @@
   "Location": "westeurope",
   "ResourceGroup": "TEST",
   "Provider": "GitHub",
-  "Name": "azure-swa-demo"
+  "Name": "DotnetCornerSample"
 }

@@ -37,7 +37,7 @@ public static partial class StaticWebAppsTasks
     /// </summary>
     public static IReadOnlyCollection<Output> StaticWebApps(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, bool? logTimestamp = null, string logFile = null, Func<string, string> outputFilter = null)
     {
-        using var process = ProcessTasks.StartProcess(StaticWebAppsPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, logTimestamp, logFile, StaticWebAppsLogger, outputFilter);
+        using var process = ProcessTasks.StartProcess(StaticWebAppsPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, StaticWebAppsLogger, outputFilter);
         process.AssertZeroExitCode();
         return process.Output;
     }

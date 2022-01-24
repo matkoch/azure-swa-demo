@@ -35,7 +35,7 @@ public static partial class StaticSitesClientTasks
     /// </summary>
     public static IReadOnlyCollection<Output> StaticSitesClient(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, bool? logTimestamp = null, string logFile = null, Func<string, string> outputFilter = null)
     {
-        using var process = ProcessTasks.StartProcess(StaticSitesClientPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, logTimestamp, logFile, StaticSitesClientLogger, outputFilter);
+        using var process = ProcessTasks.StartProcess(StaticSitesClientPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, StaticSitesClientLogger, outputFilter);
         process.AssertZeroExitCode();
         return process.Output;
     }
