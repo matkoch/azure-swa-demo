@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SwaEmu" type="NodeJSConfigurationType" application-parameters="start http://localhost:5000 --api-location http://localhost:7071" node-parameters="/usr/local/lib/node_modules/@azure/static-web-apps-cli/dist/cli/bin.js" working-dir="$PROJECT_DIR$">
+  <configuration default="false" name="SwaEmu" type="NodeJSConfigurationType" application-parameters="start http://localhost:5000 --api-location http://localhost:7071" node-parameters="/opt/homebrew/lib/node_modules/@azure/static-web-apps-cli/dist/cli/bin.js" working-dir="$PROJECT_DIR$">
     <method v="2" />
   </configuration>
 </component>
