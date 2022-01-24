@@ -28,7 +28,7 @@ namespace SwaApi
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            if (principal == null || !principal.Identity.IsAuthenticated)
+            if (principal is not { Identity.IsAuthenticated: true })
                 return new UnauthorizedResult();
 
             if (!principal.IsInRole("admin"))
