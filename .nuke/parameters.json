@@ -2,7 +2,7 @@
   "$schema": "./build.schema.json",
   "Solution": "azure-swa-demo.sln",
   "Location": "westeurope",
-  "ResourceGroup": "TEST",
+  "ResourceGroup": "DEMOS",
   "Provider": "GitHub",
-  "Name": "DotnetCornerSample"
+  "Name": "NdcPorto"
 }
