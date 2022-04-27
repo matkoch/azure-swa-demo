@@ -23,9 +23,10 @@ namespace SwaApi
         public async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
-            ILogger log,
-            [StaticWebAppsPrincipal] ClaimsPrincipal principal)
+            ILogger log)
+            // [StaticWebAppsPrincipal] ClaimsPrincipal principal)
         {
+            var principal = await ClientPrincipal.ParseFromRequest(request);
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             if (principal is not { Identity.IsAuthenticated: true })

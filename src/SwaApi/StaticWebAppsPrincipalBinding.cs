@@ -102,30 +102,7 @@ namespace SwaApi
         public Task<object> GetValueAsync()
         {
             var request = _httpContextAccessor.HttpContext.Request;
-
-            var principal = new ClientPrincipal();
-
-            if (request.Headers.TryGetValue("x-ms-client-principal", out var header))
-            {
-                var data = header[0];
-                var decoded = Convert.FromBase64String(data);
-                var json = Encoding.UTF8.GetString(decoded);
-                principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            }
-
-            principal.UserRoles = principal.UserRoles?.Except(new[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
-
-            if (!principal.UserRoles?.Any() ?? true)
-            {
-                return Task.FromResult<object>(new ClaimsPrincipal());
-            }
-
-            var identity = new ClaimsIdentity(principal.IdentityProvider);
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, principal.UserId));
-            identity.AddClaim(new Claim(ClaimTypes.Name, principal.UserDetails));
-            identity.AddClaims(principal.UserRoles.Select(r => new Claim(ClaimTypes.Role, r)));
-
-            return Task.FromResult<object>(new ClaimsPrincipal(identity));
+            return Task.FromResult<object>(ClientPrincipal.ParseFromRequest(request));
         }
 
         public string ToInvokeString()
@@ -140,6 +117,33 @@ namespace SwaApi
         public string UserId { get; set; }
         public string UserDetails { get; set; }
         public IEnumerable<string> UserRoles { get; set; }
+
+        public static Task<ClaimsPrincipal> ParseFromRequest(HttpRequest request)
+        {
+            var principal = new ClientPrincipal();
+
+            if (request.Headers.TryGetValue("x-ms-client-principal", out var header))
+            {
+                var data = header[0];
+                var decoded = Convert.FromBase64String(data);
+                var json = Encoding.UTF8.GetString(decoded);
+                principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+
+            principal.UserRoles = principal.UserRoles?.Except(new[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
+
+            if (!principal.UserRoles?.Any() ?? true)
+            {
+                return Task.FromResult(new ClaimsPrincipal());
+            }
+
+            var identity = new ClaimsIdentity(principal.IdentityProvider);
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, principal.UserId));
+            identity.AddClaim(new Claim(ClaimTypes.Name, principal.UserDetails));
+            identity.AddClaims(principal.UserRoles.Select(r => new Claim(ClaimTypes.Role, r)));
+
+            return Task.FromResult(new ClaimsPrincipal(identity));
+        }
     }
 
 }
