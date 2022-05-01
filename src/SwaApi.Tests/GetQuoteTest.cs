@@ -16,11 +16,11 @@ using Xunit.Abstractions;
 
 namespace SwaApi.Tests
 {
-    public class UnitTest1 : TestBase
+    public class GetQuoteTest : TestBase
     {
         private readonly GetQuote _sut;
 
-        public UnitTest1(ITestOutputHelper outputHelper)
+        public GetQuoteTest(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
             _sut = new GetQuote(HttpClient);

@@ -103,6 +103,7 @@ partial class Build : NukeBuild
                 .SetImage("mcr.microsoft.com/appsvc/staticappsclient:stable")
                 .SetWorkdir("/deploy")
                 .AddVolume($"{RootDirectory}:/deploy")
+                .SetPlatform("linux/amd64")
                 .AddArgs((StaticSitesClientSettings _) => _
                     .SetDeploymentAction("upload")
                     .SetApiToken(ApiToken ?? GetApiToken())

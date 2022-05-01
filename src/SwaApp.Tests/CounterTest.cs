@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SwaApp.Tests
 {
-    public class UnitTest1 : TestBase<Counter>
+    public class CounterTest : TestBase<Counter>
     {
         [Fact]
         public void Test1()
