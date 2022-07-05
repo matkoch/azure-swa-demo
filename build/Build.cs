@@ -1,12 +1,10 @@
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.CI.TeamCity;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
-using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.Docker;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities;
@@ -68,6 +66,7 @@ partial class Build : NukeBuild
         .Requires(() => Roles)
         .Executes(() =>
         {
+            // az staticwebapp users invite --name ...
             var invitationLink = AzStaticWebAppUsersInvite(_ => _
                 .SetName(Name)
                 .SetAuthenticationProvider(Provider)
@@ -82,9 +81,13 @@ partial class Build : NukeBuild
     Target Test => _ => _
         .Executes(() =>
         {
+            // dotnet test SwaApi.Tests.csproj --logger trx;LogFileName=SwaApi.Tests.trx    --results-directory ... --configuration Release
+            // dotnet test SwaApp.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx    --results-directory ... --configuration Release
+            // dotnet test Something.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx    --results-directory ... --configuration Release
             DotNetTest(_ => _
                 .ResetVerbosity()
                 .SetResultsDirectory(RootDirectory / "output" / "test-results")
+                .SetConfiguration(Configuration.Release)
                 .CombineWith(Solution.GetProjects("*.Tests"), (_, v) => _
                     .SetProjectFile(v)
                     .AddLoggers($"trx;LogFileName={v.Name}.trx")));
@@ -99,6 +102,16 @@ partial class Build : NukeBuild
         .DependsOn(Test)
         .Executes(() =>
         {
+            // docker run --workdir /deploy
+            //            --platform linux/amd64 <image>
+            //            ...
+            //     /bin/staticsites/StaticSitesClient
+            //          run
+            //          --app src/SwaApp
+            //          --api src/SwaApi
+            //          --outputLocation wwwroot
+            //          --apiToken ***
+            //          --deploymentaction upload
             DockerRun(_ => _
                 .SetImage("mcr.microsoft.com/appsvc/staticappsclient:stable")
                 .SetWorkdir("/deploy")

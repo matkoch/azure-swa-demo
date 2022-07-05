@@ -1,17 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">SOLUTION</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/Users/matt/Library/Application Support/JetBrains/Rider2021.2/docker/sleepy_pascal/bin/staticsites/StaticSitesClient.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1f3f84b6_002Db412_002D4d7f_002Da8e2_002D5f39eb4c4cd2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::8DB79D50-E6DA-4DDC-9018-D0E10BC5A450::net5.0::SwaApi.Tests.UnitTest1.Test1&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::052A87D1-57BF-4350-B1FA-0ABE3C04BABF::net5.0::SwaApp.Tests.UnitTest1.Test1&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::8DB79D50-E6DA-4DDC-9018-D0E10BC5A450::net5.0::SwaApi.Tests.UnitTest1&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;Test&gt;
-      &lt;TestId&gt;xUnit::052A87D1-57BF-4350-B1FA-0ABE3C04BABF::net5.0::SwaApp.Tests.UnitTest1.Test1&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::052A87D1-57BF-4350-B1FA-0ABE3C04BABF::net5.0::SwaApp.Tests.UnitTest1&lt;/TestId&gt;
-    &lt;/Test&gt;
+    &lt;Project Location="/Users/matt/code/azure-swa-demo/src/SwaApp.Tests" Presentation="&amp;lt;SwaApp.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/matt/code/azure-swa-demo/src/SwaApi.Tests" Presentation="&amp;lt;SwaApi.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>

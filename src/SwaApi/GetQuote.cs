@@ -1,5 +1,4 @@
 using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
