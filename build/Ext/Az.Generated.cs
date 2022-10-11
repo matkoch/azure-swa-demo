@@ -1,4 +1,4 @@
-// Generated from https://raw.githubusercontent.com/matkoch/SwaDemo2/master/build/Ext/Az.json
+// Generated from https://raw.githubusercontent.com/matkoch/azure-swa-demo/main/build/Ext/Az.json
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -33,7 +33,7 @@ public static partial class AzTasks
     /// <summary>
     ///   <p>For more details, visit the <a href="">official website</a>.</p>
     /// </summary>
-    public static IReadOnlyCollection<Output> Az(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, bool? logTimestamp = null, string logFile = null, Func<string, string> outputFilter = null)
+    public static IReadOnlyCollection<Output> Az(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, Func<string, string> outputFilter = null)
     {
         using var process = ProcessTasks.StartProcess(AzPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, AzLogger, outputFilter);
         process.AssertZeroExitCode();
@@ -146,6 +146,108 @@ public static partial class AzTasks
     {
         return configurator.Invoke(AzDeploymentGroupCreate, AzLogger, degreeOfParallelism, completeOnFailure);
     }
+    /// <summary>
+    ///   <p>For more details, visit the <a href="">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--hostname</c> via <see cref="AzStaticWebAppHostnameSetSettings.Hostname"/></li>
+    ///     <li><c>--name</c> via <see cref="AzStaticWebAppHostnameSetSettings.Name"/></li>
+    ///     <li><c>--resource-group</c> via <see cref="AzStaticWebAppHostnameSetSettings.ResourceGroup"/></li>
+    ///     <li><c>--validation-method</c> via <see cref="AzStaticWebAppHostnameSetSettings.ValidationMethod"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IReadOnlyCollection<Output> AzStaticWebAppHostnameSet(AzStaticWebAppHostnameSetSettings toolSettings = null)
+    {
+        toolSettings = toolSettings ?? new AzStaticWebAppHostnameSetSettings();
+        using var process = ProcessTasks.StartProcess(toolSettings);
+        process.AssertZeroExitCode();
+        return process.Output;
+    }
+    /// <summary>
+    ///   <p>For more details, visit the <a href="">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--hostname</c> via <see cref="AzStaticWebAppHostnameSetSettings.Hostname"/></li>
+    ///     <li><c>--name</c> via <see cref="AzStaticWebAppHostnameSetSettings.Name"/></li>
+    ///     <li><c>--resource-group</c> via <see cref="AzStaticWebAppHostnameSetSettings.ResourceGroup"/></li>
+    ///     <li><c>--validation-method</c> via <see cref="AzStaticWebAppHostnameSetSettings.ValidationMethod"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IReadOnlyCollection<Output> AzStaticWebAppHostnameSet(Configure<AzStaticWebAppHostnameSetSettings> configurator)
+    {
+        return AzStaticWebAppHostnameSet(configurator(new AzStaticWebAppHostnameSetSettings()));
+    }
+    /// <summary>
+    ///   <p>For more details, visit the <a href="">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--hostname</c> via <see cref="AzStaticWebAppHostnameSetSettings.Hostname"/></li>
+    ///     <li><c>--name</c> via <see cref="AzStaticWebAppHostnameSetSettings.Name"/></li>
+    ///     <li><c>--resource-group</c> via <see cref="AzStaticWebAppHostnameSetSettings.ResourceGroup"/></li>
+    ///     <li><c>--validation-method</c> via <see cref="AzStaticWebAppHostnameSetSettings.ValidationMethod"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IEnumerable<(AzStaticWebAppHostnameSetSettings Settings, IReadOnlyCollection<Output> Output)> AzStaticWebAppHostnameSet(CombinatorialConfigure<AzStaticWebAppHostnameSetSettings> configurator, int degreeOfParallelism = 1, bool completeOnFailure = false)
+    {
+        return configurator.Invoke(AzStaticWebAppHostnameSet, AzLogger, degreeOfParallelism, completeOnFailure);
+    }
+    /// <summary>
+    ///   <p>For more details, visit the <a href="">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--hostname</c> via <see cref="AzStaticWebAppHostnameShowSettings.Hostname"/></li>
+    ///     <li><c>--name</c> via <see cref="AzStaticWebAppHostnameShowSettings.Name"/></li>
+    ///     <li><c>--query</c> via <see cref="AzStaticWebAppHostnameShowSettings.Query"/></li>
+    ///     <li><c>--resource-group</c> via <see cref="AzStaticWebAppHostnameShowSettings.ResourceGroup"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IReadOnlyCollection<Output> AzStaticWebAppHostnameShow(AzStaticWebAppHostnameShowSettings toolSettings = null)
+    {
+        toolSettings = toolSettings ?? new AzStaticWebAppHostnameShowSettings();
+        using var process = ProcessTasks.StartProcess(toolSettings);
+        process.AssertZeroExitCode();
+        return process.Output;
+    }
+    /// <summary>
+    ///   <p>For more details, visit the <a href="">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--hostname</c> via <see cref="AzStaticWebAppHostnameShowSettings.Hostname"/></li>
+    ///     <li><c>--name</c> via <see cref="AzStaticWebAppHostnameShowSettings.Name"/></li>
+    ///     <li><c>--query</c> via <see cref="AzStaticWebAppHostnameShowSettings.Query"/></li>
+    ///     <li><c>--resource-group</c> via <see cref="AzStaticWebAppHostnameShowSettings.ResourceGroup"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IReadOnlyCollection<Output> AzStaticWebAppHostnameShow(Configure<AzStaticWebAppHostnameShowSettings> configurator)
+    {
+        return AzStaticWebAppHostnameShow(configurator(new AzStaticWebAppHostnameShowSettings()));
+    }
+    /// <summary>
+    ///   <p>For more details, visit the <a href="">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--hostname</c> via <see cref="AzStaticWebAppHostnameShowSettings.Hostname"/></li>
+    ///     <li><c>--name</c> via <see cref="AzStaticWebAppHostnameShowSettings.Name"/></li>
+    ///     <li><c>--query</c> via <see cref="AzStaticWebAppHostnameShowSettings.Query"/></li>
+    ///     <li><c>--resource-group</c> via <see cref="AzStaticWebAppHostnameShowSettings.ResourceGroup"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IEnumerable<(AzStaticWebAppHostnameShowSettings Settings, IReadOnlyCollection<Output> Output)> AzStaticWebAppHostnameShow(CombinatorialConfigure<AzStaticWebAppHostnameShowSettings> configurator, int degreeOfParallelism = 1, bool completeOnFailure = false)
+    {
+        return configurator.Invoke(AzStaticWebAppHostnameShow, AzLogger, degreeOfParallelism, completeOnFailure);
+    }
 }
 #region AzStaticWebAppUsersInviteSettings
 /// <summary>
@@ -207,6 +309,66 @@ public partial class AzDeploymentGroupCreateSettings : ToolSettings
           .Add("--resource-group {value}", ResourceGroup)
           .Add("--template-file {value}", TemplateFile)
           .Add("--parameters {value}", Parameters, "{key}={value}", separator: ' ');
+        return base.ConfigureProcessArguments(arguments);
+    }
+}
+#endregion
+#region AzStaticWebAppHostnameSetSettings
+/// <summary>
+///   Used within <see cref="AzTasks"/>.
+/// </summary>
+[PublicAPI]
+[ExcludeFromCodeCoverage]
+[Serializable]
+public partial class AzStaticWebAppHostnameSetSettings : ToolSettings
+{
+    /// <summary>
+    ///   Path to the Az executable.
+    /// </summary>
+    public override string ProcessToolPath => base.ProcessToolPath ?? AzTasks.AzPath;
+    public override Action<OutputType, string> ProcessCustomLogger => AzTasks.AzLogger;
+    public virtual string Name { get; internal set; }
+    public virtual string ResourceGroup { get; internal set; }
+    public virtual string Hostname { get; internal set; }
+    public virtual AzValidationMethod ValidationMethod { get; internal set; }
+    protected override Arguments ConfigureProcessArguments(Arguments arguments)
+    {
+        arguments
+          .Add("staticwebapp hostname set")
+          .Add("--name {value}", Name)
+          .Add("--resource-group {value}", ResourceGroup)
+          .Add("--hostname {value}", Hostname)
+          .Add("--validation-method {value}", ValidationMethod);
+        return base.ConfigureProcessArguments(arguments);
+    }
+}
+#endregion
+#region AzStaticWebAppHostnameShowSettings
+/// <summary>
+///   Used within <see cref="AzTasks"/>.
+/// </summary>
+[PublicAPI]
+[ExcludeFromCodeCoverage]
+[Serializable]
+public partial class AzStaticWebAppHostnameShowSettings : ToolSettings
+{
+    /// <summary>
+    ///   Path to the Az executable.
+    /// </summary>
+    public override string ProcessToolPath => base.ProcessToolPath ?? AzTasks.AzPath;
+    public override Action<OutputType, string> ProcessCustomLogger => AzTasks.AzLogger;
+    public virtual string Name { get; internal set; }
+    public virtual string ResourceGroup { get; internal set; }
+    public virtual string Hostname { get; internal set; }
+    public virtual string Query { get; internal set; }
+    protected override Arguments ConfigureProcessArguments(Arguments arguments)
+    {
+        arguments
+          .Add("staticwebapp hostname show")
+          .Add("--name {value}", Name)
+          .Add("--resource-group {value}", ResourceGroup)
+          .Add("--hostname {value}", Hostname)
+          .Add("--query {value}", Query);
         return base.ConfigureProcessArguments(arguments);
     }
 }
@@ -511,6 +673,202 @@ public static partial class AzDeploymentGroupCreateSettingsExtensions
     #endregion
 }
 #endregion
+#region AzStaticWebAppHostnameSetSettingsExtensions
+/// <summary>
+///   Used within <see cref="AzTasks"/>.
+/// </summary>
+[PublicAPI]
+[ExcludeFromCodeCoverage]
+public static partial class AzStaticWebAppHostnameSetSettingsExtensions
+{
+    #region Name
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameSetSettings.Name"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetName<T>(this T toolSettings, string name) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Name = name;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameSetSettings.Name"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetName<T>(this T toolSettings) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Name = null;
+        return toolSettings;
+    }
+    #endregion
+    #region ResourceGroup
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameSetSettings.ResourceGroup"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetResourceGroup<T>(this T toolSettings, string resourceGroup) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ResourceGroup = resourceGroup;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameSetSettings.ResourceGroup"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetResourceGroup<T>(this T toolSettings) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ResourceGroup = null;
+        return toolSettings;
+    }
+    #endregion
+    #region Hostname
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameSetSettings.Hostname"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetHostname<T>(this T toolSettings, string hostname) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Hostname = hostname;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameSetSettings.Hostname"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetHostname<T>(this T toolSettings) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Hostname = null;
+        return toolSettings;
+    }
+    #endregion
+    #region ValidationMethod
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameSetSettings.ValidationMethod"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetValidationMethod<T>(this T toolSettings, AzValidationMethod validationMethod) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ValidationMethod = validationMethod;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameSetSettings.ValidationMethod"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetValidationMethod<T>(this T toolSettings) where T : AzStaticWebAppHostnameSetSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ValidationMethod = null;
+        return toolSettings;
+    }
+    #endregion
+}
+#endregion
+#region AzStaticWebAppHostnameShowSettingsExtensions
+/// <summary>
+///   Used within <see cref="AzTasks"/>.
+/// </summary>
+[PublicAPI]
+[ExcludeFromCodeCoverage]
+public static partial class AzStaticWebAppHostnameShowSettingsExtensions
+{
+    #region Name
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameShowSettings.Name"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetName<T>(this T toolSettings, string name) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Name = name;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameShowSettings.Name"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetName<T>(this T toolSettings) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Name = null;
+        return toolSettings;
+    }
+    #endregion
+    #region ResourceGroup
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameShowSettings.ResourceGroup"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetResourceGroup<T>(this T toolSettings, string resourceGroup) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ResourceGroup = resourceGroup;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameShowSettings.ResourceGroup"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetResourceGroup<T>(this T toolSettings) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ResourceGroup = null;
+        return toolSettings;
+    }
+    #endregion
+    #region Hostname
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameShowSettings.Hostname"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetHostname<T>(this T toolSettings, string hostname) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Hostname = hostname;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameShowSettings.Hostname"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetHostname<T>(this T toolSettings) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Hostname = null;
+        return toolSettings;
+    }
+    #endregion
+    #region Query
+    /// <summary>
+    ///   <p><em>Sets <see cref="AzStaticWebAppHostnameShowSettings.Query"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T SetQuery<T>(this T toolSettings, string query) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Query = query;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="AzStaticWebAppHostnameShowSettings.Query"/></em></p>
+    /// </summary>
+    [Pure]
+    public static T ResetQuery<T>(this T toolSettings) where T : AzStaticWebAppHostnameShowSettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Query = null;
+        return toolSettings;
+    }
+    #endregion
+}
+#endregion
 #region AzAuthenticationProvider
 /// <summary>
 ///   Used within <see cref="AzTasks"/>.
@@ -529,6 +887,23 @@ public partial class AzAuthenticationProvider : Enumeration
     public static implicit operator AzAuthenticationProvider(string value)
     {
         return new AzAuthenticationProvider { Value = value };
+    }
+}
+#endregion
+#region AzValidationMethod
+/// <summary>
+///   Used within <see cref="AzTasks"/>.
+/// </summary>
+[PublicAPI]
+[Serializable]
+[ExcludeFromCodeCoverage]
+[TypeConverter(typeof(TypeConverter<AzValidationMethod>))]
+public partial class AzValidationMethod : Enumeration
+{
+    public static AzValidationMethod dns_text_token = (AzValidationMethod) "dns-text-token";
+    public static implicit operator AzValidationMethod(string value)
+    {
+        return new AzValidationMethod { Value = value };
     }
 }
 #endregion

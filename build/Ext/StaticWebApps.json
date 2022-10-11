@@ -84,6 +84,51 @@
           }
         ]
       }
+    },
+    {
+      "postfix": "Deploy",
+      "definiteArgument": "deploy",
+      "settingsClass": {
+        "properties": [
+          {
+            "name": "AppLocation",
+            "type": "string",
+            "format": "--app-location {value}",
+            "help": "Directory containing the source code of the front-end application (default: <c>./</c>)."
+          },
+          {
+            "name": "ApiLocation",
+            "type": "string",
+            "format": "--api-location {value}",
+            "help": "Directory containing the source code of the API application."
+          },
+          {
+            "name": "OutputLocation",
+            "type": "string",
+            "format": "--output-location {value}",
+            "help": "Directory containing the built source of the front-end application. The path is relative to <c>--app-location</c> (default: <c>./</c>)."
+          },
+          {
+            "name": "ConfigLocation",
+            "type": "string",
+            "format": "--swa-config-location {value}",
+            "help": "Directory where the <em>staticwebapp.config.json</em> file is found (default: <c>./</c>)"
+          },
+          {
+            "name": "DeploymentToken",
+            "type": "string",
+            "format": "--deployment-token {value}",
+            "secret": true,
+            "help": "Secret token used to authenticate with the Static Web Apps"
+          },
+          {
+            "name": "Environment",
+            "type": "string",
+            "format": "--env {value}",
+            "help": "Type of deployment environment where to deploy the project (default: <c>preview</c>)."
+          }
+        ]
+      }
     }
   ]
 }

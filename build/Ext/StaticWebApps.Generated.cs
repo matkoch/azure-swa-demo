@@ -1,4 +1,4 @@
-// Generated from https://raw.githubusercontent.com/matkoch/SwaDemo2/master/build/StaticWebApps.json
+// Generated from https://raw.githubusercontent.com/matkoch/azure-swa-demo/main/build/Ext/StaticWebApps.json
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -35,7 +35,7 @@ public static partial class StaticWebAppsTasks
     ///   <p>The Static Web Apps CLI, also known as SWA CLI, serves as a local development tool for <a href="https://docs.microsoft.com/azure/static-web-apps">Azure Static Web Apps</a>. It can:<ul><li>Serve static app assets, or proxy to your app dev server</li><li>Serve API requests, or proxy to APIs running in Azure Functions Core Tools</li><li>Emulate authentication and authorization</li><li>Emulate Static Web Apps configuration, including routing</li></ul></p>
     ///   <p>For more details, visit the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/local-development">official website</a>.</p>
     /// </summary>
-    public static IReadOnlyCollection<Output> StaticWebApps(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, bool? logTimestamp = null, string logFile = null, Func<string, string> outputFilter = null)
+    public static IReadOnlyCollection<Output> StaticWebApps(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, Func<string, string> outputFilter = null)
     {
         using var process = ProcessTasks.StartProcess(StaticWebAppsPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, StaticWebAppsLogger, outputFilter);
         process.AssertZeroExitCode();
@@ -119,6 +119,66 @@ public static partial class StaticWebAppsTasks
     {
         return configurator.Invoke(StaticWebAppsStart, StaticWebAppsLogger, degreeOfParallelism, completeOnFailure);
     }
+    /// <summary>
+    ///   <p>The Static Web Apps CLI, also known as SWA CLI, serves as a local development tool for <a href="https://docs.microsoft.com/azure/static-web-apps">Azure Static Web Apps</a>. It can:<ul><li>Serve static app assets, or proxy to your app dev server</li><li>Serve API requests, or proxy to APIs running in Azure Functions Core Tools</li><li>Emulate authentication and authorization</li><li>Emulate Static Web Apps configuration, including routing</li></ul></p>
+    ///   <p>For more details, visit the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/local-development">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--api-location</c> via <see cref="StaticWebAppsDeploySettings.ApiLocation"/></li>
+    ///     <li><c>--app-location</c> via <see cref="StaticWebAppsDeploySettings.AppLocation"/></li>
+    ///     <li><c>--deployment-token</c> via <see cref="StaticWebAppsDeploySettings.DeploymentToken"/></li>
+    ///     <li><c>--env</c> via <see cref="StaticWebAppsDeploySettings.Environment"/></li>
+    ///     <li><c>--output-location</c> via <see cref="StaticWebAppsDeploySettings.OutputLocation"/></li>
+    ///     <li><c>--swa-config-location</c> via <see cref="StaticWebAppsDeploySettings.ConfigLocation"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IReadOnlyCollection<Output> StaticWebAppsDeploy(StaticWebAppsDeploySettings toolSettings = null)
+    {
+        toolSettings = toolSettings ?? new StaticWebAppsDeploySettings();
+        using var process = ProcessTasks.StartProcess(toolSettings);
+        process.AssertZeroExitCode();
+        return process.Output;
+    }
+    /// <summary>
+    ///   <p>The Static Web Apps CLI, also known as SWA CLI, serves as a local development tool for <a href="https://docs.microsoft.com/azure/static-web-apps">Azure Static Web Apps</a>. It can:<ul><li>Serve static app assets, or proxy to your app dev server</li><li>Serve API requests, or proxy to APIs running in Azure Functions Core Tools</li><li>Emulate authentication and authorization</li><li>Emulate Static Web Apps configuration, including routing</li></ul></p>
+    ///   <p>For more details, visit the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/local-development">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--api-location</c> via <see cref="StaticWebAppsDeploySettings.ApiLocation"/></li>
+    ///     <li><c>--app-location</c> via <see cref="StaticWebAppsDeploySettings.AppLocation"/></li>
+    ///     <li><c>--deployment-token</c> via <see cref="StaticWebAppsDeploySettings.DeploymentToken"/></li>
+    ///     <li><c>--env</c> via <see cref="StaticWebAppsDeploySettings.Environment"/></li>
+    ///     <li><c>--output-location</c> via <see cref="StaticWebAppsDeploySettings.OutputLocation"/></li>
+    ///     <li><c>--swa-config-location</c> via <see cref="StaticWebAppsDeploySettings.ConfigLocation"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IReadOnlyCollection<Output> StaticWebAppsDeploy(Configure<StaticWebAppsDeploySettings> configurator)
+    {
+        return StaticWebAppsDeploy(configurator(new StaticWebAppsDeploySettings()));
+    }
+    /// <summary>
+    ///   <p>The Static Web Apps CLI, also known as SWA CLI, serves as a local development tool for <a href="https://docs.microsoft.com/azure/static-web-apps">Azure Static Web Apps</a>. It can:<ul><li>Serve static app assets, or proxy to your app dev server</li><li>Serve API requests, or proxy to APIs running in Azure Functions Core Tools</li><li>Emulate authentication and authorization</li><li>Emulate Static Web Apps configuration, including routing</li></ul></p>
+    ///   <p>For more details, visit the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/local-development">official website</a>.</p>
+    /// </summary>
+    /// <remarks>
+    ///   <p>This is a <a href="http://www.nuke.build/docs/authoring-builds/cli-tools.html#fluent-apis">CLI wrapper with fluent API</a> that allows to modify the following arguments:</p>
+    ///   <ul>
+    ///     <li><c>--api-location</c> via <see cref="StaticWebAppsDeploySettings.ApiLocation"/></li>
+    ///     <li><c>--app-location</c> via <see cref="StaticWebAppsDeploySettings.AppLocation"/></li>
+    ///     <li><c>--deployment-token</c> via <see cref="StaticWebAppsDeploySettings.DeploymentToken"/></li>
+    ///     <li><c>--env</c> via <see cref="StaticWebAppsDeploySettings.Environment"/></li>
+    ///     <li><c>--output-location</c> via <see cref="StaticWebAppsDeploySettings.OutputLocation"/></li>
+    ///     <li><c>--swa-config-location</c> via <see cref="StaticWebAppsDeploySettings.ConfigLocation"/></li>
+    ///   </ul>
+    /// </remarks>
+    public static IEnumerable<(StaticWebAppsDeploySettings Settings, IReadOnlyCollection<Output> Output)> StaticWebAppsDeploy(CombinatorialConfigure<StaticWebAppsDeploySettings> configurator, int degreeOfParallelism = 1, bool completeOnFailure = false)
+    {
+        return configurator.Invoke(StaticWebAppsDeploy, StaticWebAppsLogger, degreeOfParallelism, completeOnFailure);
+    }
 }
 #region StaticWebAppsStartSettings
 /// <summary>
@@ -198,6 +258,58 @@ public partial class StaticWebAppsStartSettings : ToolSettings
           .Add("--ssl-key {value}", SslKey)
           .Add("--run {value}", StartupScript)
           .Add("--devserver-timeout {value}", DevServerTimeout);
+        return base.ConfigureProcessArguments(arguments);
+    }
+}
+#endregion
+#region StaticWebAppsDeploySettings
+/// <summary>
+///   Used within <see cref="StaticWebAppsTasks"/>.
+/// </summary>
+[PublicAPI]
+[ExcludeFromCodeCoverage]
+[Serializable]
+public partial class StaticWebAppsDeploySettings : ToolSettings
+{
+    /// <summary>
+    ///   Path to the StaticWebApps executable.
+    /// </summary>
+    public override string ProcessToolPath => base.ProcessToolPath ?? StaticWebAppsTasks.StaticWebAppsPath;
+    public override Action<OutputType, string> ProcessCustomLogger => StaticWebAppsTasks.StaticWebAppsLogger;
+    /// <summary>
+    ///   Directory containing the source code of the front-end application (default: <c>./</c>).
+    /// </summary>
+    public virtual string AppLocation { get; internal set; }
+    /// <summary>
+    ///   Directory containing the source code of the API application.
+    /// </summary>
+    public virtual string ApiLocation { get; internal set; }
+    /// <summary>
+    ///   Directory containing the built source of the front-end application. The path is relative to <c>--app-location</c> (default: <c>./</c>).
+    /// </summary>
+    public virtual string OutputLocation { get; internal set; }
+    /// <summary>
+    ///   Directory where the <em>staticwebapp.config.json</em> file is found (default: <c>./</c>)
+    /// </summary>
+    public virtual string ConfigLocation { get; internal set; }
+    /// <summary>
+    ///   Secret token used to authenticate with the Static Web Apps
+    /// </summary>
+    public virtual string DeploymentToken { get; internal set; }
+    /// <summary>
+    ///   Type of deployment environment where to deploy the project (default: <c>preview</c>).
+    /// </summary>
+    public virtual string Environment { get; internal set; }
+    protected override Arguments ConfigureProcessArguments(Arguments arguments)
+    {
+        arguments
+          .Add("deploy")
+          .Add("--app-location {value}", AppLocation)
+          .Add("--api-location {value}", ApiLocation)
+          .Add("--output-location {value}", OutputLocation)
+          .Add("--swa-config-location {value}", ConfigLocation)
+          .Add("--deployment-token {value}", DeploymentToken, secret: true)
+          .Add("--env {value}", Environment);
         return base.ConfigureProcessArguments(arguments);
     }
 }
@@ -528,6 +640,160 @@ public static partial class StaticWebAppsStartSettingsExtensions
     {
         toolSettings = toolSettings.NewInstance();
         toolSettings.DevServerTimeout = null;
+        return toolSettings;
+    }
+    #endregion
+}
+#endregion
+#region StaticWebAppsDeploySettingsExtensions
+/// <summary>
+///   Used within <see cref="StaticWebAppsTasks"/>.
+/// </summary>
+[PublicAPI]
+[ExcludeFromCodeCoverage]
+public static partial class StaticWebAppsDeploySettingsExtensions
+{
+    #region AppLocation
+    /// <summary>
+    ///   <p><em>Sets <see cref="StaticWebAppsDeploySettings.AppLocation"/></em></p>
+    ///   <p>Directory containing the source code of the front-end application (default: <c>./</c>).</p>
+    /// </summary>
+    [Pure]
+    public static T SetAppLocation<T>(this T toolSettings, string appLocation) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.AppLocation = appLocation;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="StaticWebAppsDeploySettings.AppLocation"/></em></p>
+    ///   <p>Directory containing the source code of the front-end application (default: <c>./</c>).</p>
+    /// </summary>
+    [Pure]
+    public static T ResetAppLocation<T>(this T toolSettings) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.AppLocation = null;
+        return toolSettings;
+    }
+    #endregion
+    #region ApiLocation
+    /// <summary>
+    ///   <p><em>Sets <see cref="StaticWebAppsDeploySettings.ApiLocation"/></em></p>
+    ///   <p>Directory containing the source code of the API application.</p>
+    /// </summary>
+    [Pure]
+    public static T SetApiLocation<T>(this T toolSettings, string apiLocation) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ApiLocation = apiLocation;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="StaticWebAppsDeploySettings.ApiLocation"/></em></p>
+    ///   <p>Directory containing the source code of the API application.</p>
+    /// </summary>
+    [Pure]
+    public static T ResetApiLocation<T>(this T toolSettings) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ApiLocation = null;
+        return toolSettings;
+    }
+    #endregion
+    #region OutputLocation
+    /// <summary>
+    ///   <p><em>Sets <see cref="StaticWebAppsDeploySettings.OutputLocation"/></em></p>
+    ///   <p>Directory containing the built source of the front-end application. The path is relative to <c>--app-location</c> (default: <c>./</c>).</p>
+    /// </summary>
+    [Pure]
+    public static T SetOutputLocation<T>(this T toolSettings, string outputLocation) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.OutputLocation = outputLocation;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="StaticWebAppsDeploySettings.OutputLocation"/></em></p>
+    ///   <p>Directory containing the built source of the front-end application. The path is relative to <c>--app-location</c> (default: <c>./</c>).</p>
+    /// </summary>
+    [Pure]
+    public static T ResetOutputLocation<T>(this T toolSettings) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.OutputLocation = null;
+        return toolSettings;
+    }
+    #endregion
+    #region ConfigLocation
+    /// <summary>
+    ///   <p><em>Sets <see cref="StaticWebAppsDeploySettings.ConfigLocation"/></em></p>
+    ///   <p>Directory where the <em>staticwebapp.config.json</em> file is found (default: <c>./</c>)</p>
+    /// </summary>
+    [Pure]
+    public static T SetConfigLocation<T>(this T toolSettings, string configLocation) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ConfigLocation = configLocation;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="StaticWebAppsDeploySettings.ConfigLocation"/></em></p>
+    ///   <p>Directory where the <em>staticwebapp.config.json</em> file is found (default: <c>./</c>)</p>
+    /// </summary>
+    [Pure]
+    public static T ResetConfigLocation<T>(this T toolSettings) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.ConfigLocation = null;
+        return toolSettings;
+    }
+    #endregion
+    #region DeploymentToken
+    /// <summary>
+    ///   <p><em>Sets <see cref="StaticWebAppsDeploySettings.DeploymentToken"/></em></p>
+    ///   <p>Secret token used to authenticate with the Static Web Apps</p>
+    /// </summary>
+    [Pure]
+    public static T SetDeploymentToken<T>(this T toolSettings, [Secret] string deploymentToken) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.DeploymentToken = deploymentToken;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="StaticWebAppsDeploySettings.DeploymentToken"/></em></p>
+    ///   <p>Secret token used to authenticate with the Static Web Apps</p>
+    /// </summary>
+    [Pure]
+    public static T ResetDeploymentToken<T>(this T toolSettings) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.DeploymentToken = null;
+        return toolSettings;
+    }
+    #endregion
+    #region Environment
+    /// <summary>
+    ///   <p><em>Sets <see cref="StaticWebAppsDeploySettings.Environment"/></em></p>
+    ///   <p>Type of deployment environment where to deploy the project (default: <c>preview</c>).</p>
+    /// </summary>
+    [Pure]
+    public static T SetEnvironment<T>(this T toolSettings, string environment) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Environment = environment;
+        return toolSettings;
+    }
+    /// <summary>
+    ///   <p><em>Resets <see cref="StaticWebAppsDeploySettings.Environment"/></em></p>
+    ///   <p>Type of deployment environment where to deploy the project (default: <c>preview</c>).</p>
+    /// </summary>
+    [Pure]
+    public static T ResetEnvironment<T>(this T toolSettings) where T : StaticWebAppsDeploySettings
+    {
+        toolSettings = toolSettings.NewInstance();
+        toolSettings.Environment = null;
         return toolSettings;
     }
     #endregion

@@ -47,8 +47,8 @@
     },
     {
       "postfix": "DeploymentGroupCreate",
-      "definiteArgument": "deployment group create",
       "preProcess": true,
+      "definiteArgument": "deployment group create",
       "settingsClass": {
         "properties": [
           {
@@ -70,6 +70,64 @@
           }
         ]
       }
+    },
+    {
+      "postfix": "StaticWebAppHostnameSet",
+      "preProcess": true,
+      "definiteArgument": "staticwebapp hostname set",
+      "settingsClass": {
+        "properties": [
+          {
+            "name": "Name",
+            "type": "string",
+            "format": "--name {value}"
+          },
+          {
+            "name": "ResourceGroup",
+            "type": "string",
+            "format": "--resource-group {value}"
+          },
+          {
+            "name": "Hostname",
+            "type": "string",
+            "format": "--hostname {value}"
+          },
+          {
+            "name": "ValidationMethod",
+            "type": "AzValidationMethod",
+            "format": "--validation-method {value}"
+          }
+        ]
+      }
+    },
+    {
+      "postfix": "StaticWebAppHostnameShow",
+      "preProcess": true,
+      "definiteArgument": "staticwebapp hostname show",
+      "settingsClass": {
+        "properties": [
+          {
+            "name": "Name",
+            "type": "string",
+            "format": "--name {value}"
+          },
+          {
+            "name": "ResourceGroup",
+            "type": "string",
+            "format": "--resource-group {value}"
+          },
+          {
+            "name": "Hostname",
+            "type": "string",
+            "format": "--hostname {value}"
+          },
+          {
+            "name": "Query",
+            "type": "string",
+            "format": "--query {value}"
+          }
+        ]
+      }
     }
   ],
   "enumerations": [
@@ -81,6 +139,12 @@
         "GitHub",
         "Google",
         "Twitter"
+      ]
+    },
+    {
+      "name": "AzValidationMethod",
+      "values": [
+        "dns-text-token"
       ]
     }
   ]
