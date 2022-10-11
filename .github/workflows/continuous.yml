@@ -31,7 +31,7 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './build.cmd Deploy'
-        run: ./build.cmd Deploy
+      - name: Run './build.cmd Publish'
+        run: ./build.cmd Publish
         env:
           ApiToken: ${{ secrets.API_TOKEN }}

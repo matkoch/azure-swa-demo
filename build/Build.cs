@@ -1,3 +1,4 @@
+using System;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
@@ -8,6 +9,7 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Docker;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities;
+using Serilog;
 using TextCopy;
 using static AzTasks;
 using static Nuke.Common.Tools.Docker.DockerTasks;
@@ -18,7 +20,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     "continuous",
     GitHubActionsImage.UbuntuLatest,
     On = new[] { GitHubActionsTrigger.Push },
-    InvokedTargets = new[] { nameof(Deploy) },
+    InvokedTargets = new[] { nameof(Publish) },
     ImportSecrets = new[] { nameof(ApiToken) })]
 [CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
@@ -97,7 +99,7 @@ partial class Build : NukeBuild
     [Parameter] [Secret] readonly string ApiToken;
 
     // nuke deploy
-    Target Deploy => _ => _
+    Target Publish => _ => _
         .Requires(() => ApiToken != null || IsLocalBuild)
         .DependsOn(Test)
         .Executes(() =>
@@ -123,6 +125,34 @@ partial class Build : NukeBuild
                     .SetApiLocation(RootDirectory.GetUnixRelativePathTo(Solution.SwaApi.Directory))
                     .SetAppLocation(RootDirectory.GetUnixRelativePathTo(Solution.SwaApp.Directory))
                     .SetOutputLocation("wwwroot")));
+        });
+
+    [Parameter] string CustomApexDomain;
+    string CustomWwwDomain => $"www.{CustomApexDomain}";
+
+    Target CustomDomain => _ => _
+        .Requires(() => CustomApexDomain)
+        .Executes(() =>
+        {
+            Az("staticwebapp hostname set " +
+               $"--name {Name} " +
+               $"--resource-group {ResourceGroup} " +
+               $"--hostname {CustomWwwDomain}");
+
+            var validationToken = Az("staticwebapp hostname show " +
+                            $"--name {Name} " +
+                            $"--resource-group {ResourceGroup} " +
+                            $"--hostname {CustomApexDomain} " +
+                            "--query validationToken")
+                    .StdToText();
+            Log.Information("Set a TXT record {ValidationToken} and hit [Enter] to continue...", validationToken);
+            Console.ReadKey();
+
+            Az("staticwebapp hostname set " +
+               $"--name {Name} " +
+               $"--resource-group {ResourceGroup} " +
+               $"--hostname {CustomApexDomain} " +
+               "--validation-method dns-txt-token");
         });
 
     string GetApiToken()
