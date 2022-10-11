@@ -16,7 +16,7 @@ partial class Build
 {
     public Build()
     {
-        DockerTasks.DockerLogger = (s, e) => Logger.Normal(e);
+        StaticWebAppsTasks.StaticWebAppsLogger = (s, e) => Logger.Normal(e);
     }
 
     public void SaveParameter<T>(Expression<Func<T>> expression, T value = default)

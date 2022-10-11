@@ -64,7 +64,7 @@ namespace SwaApi
         }
 
         public bool FromAttribute { get; }
-        public ParameterInfo? Parameter { get; set; }
+        public ParameterInfo Parameter { get; set; }
 
         public Task<IValueProvider> BindAsync(object value, ValueBindingContext context)
         {
@@ -96,8 +96,8 @@ namespace SwaApi
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Type? Type { get; set; }
-        public string? ParameterName { get; set; }
+        public Type Type { get; set; }
+        public string ParameterName { get; set; }
 
         public Task<object> GetValueAsync()
         {
