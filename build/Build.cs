@@ -7,6 +7,7 @@ using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.Npm;
 using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using Serilog;
@@ -105,6 +106,7 @@ partial class Build : NukeBuild
         });
 
     Target Test => _ => _
+        .After(Compile)
         .Executes(() =>
         {
             // dotnet test SwaApi.Tests.csproj --logger trx;LogFileName=SwaApi.Tests.trx    --results-directory ... --configuration Release
@@ -113,7 +115,7 @@ partial class Build : NukeBuild
             DotNetTasks.DotNetTest(_ => _
                 .ResetVerbosity()
                 .SetResultsDirectory(RootDirectory / "output" / "test-results")
-                .SetConfiguration(Configuration.Release)
+                .SetConfiguration(Configuration)
                 .CombineWith(Solution.GetProjects("*.Tests"), (_, v) => _
                     .SetProjectFile(v)
                     .AddLoggers($"trx;LogFileName={v.Name}.trx")));
@@ -129,6 +131,10 @@ partial class Build : NukeBuild
         .DependsOn(Test)
         .Executes(() =>
         {
+            NpmTasks.NpmInstall(_ => _
+                .SetPackages("@azure/static-web-apps-cli")
+                .EnableGlobal());
+
             StaticWebAppsTasks.StaticWebAppsDeploy(_ => _
                 .SetConfigLocation(RootDirectory / "src")
                 .SetAppLocation(Solution.SwaApp.Directory)
