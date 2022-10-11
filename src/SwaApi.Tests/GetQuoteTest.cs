@@ -26,7 +26,7 @@ namespace SwaApi.Tests
             _sut = new GetQuote(HttpClient);
         }
 
-        [Fact(Skip = "Principal binding issue")]
+        [Fact]
         public async Task Test1()
         {
             // Arrange
@@ -37,7 +37,7 @@ namespace SwaApi.Tests
             });
 
             // Act
-            var response = await _sut.RunAsync(request, TestLogger);
+            var response = await _sut.RunAsync(request, TestLogger, Task.FromResult(principal));
 
             // Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;

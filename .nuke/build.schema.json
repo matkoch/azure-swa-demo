@@ -10,6 +10,13 @@
           "type": "string",
           "default": "Secrets must be entered via 'nuke :secret [profile]'"
         },
+        "Configuration": {
+          "type": "string",
+          "enum": [
+            "Debug",
+            "Release"
+          ]
+        },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
@@ -98,6 +105,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "Clean",
               "Compile",
               "Create",
               "CustomDomain",
@@ -117,6 +125,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "Clean",
               "Compile",
               "Create",
               "CustomDomain",

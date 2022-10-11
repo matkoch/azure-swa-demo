@@ -6,14 +6,13 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
-using Nuke.Common.Tools.Docker;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities;
+using Nuke.Common.Utilities.Collections;
 using Serilog;
 using TextCopy;
-using static AzTasks;
-using static Nuke.Common.Tools.Docker.DockerTasks;
-using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.IO.FileSystemTasks;
+
 // ReSharper disable UnusedMember.Local
 
 [GitHubActions(
@@ -47,7 +46,7 @@ partial class Build : NukeBuild
         .Requires(() => Name)
         .Executes(() =>
         {
-            AzDeploymentGroupCreate(_ => _
+            AzTasks.AzDeploymentGroupCreate(_ => _
                 .SetResourceGroup(ResourceGroup)
                 .SetTemplateFile(TemplateFile)
                 .AddParameter("name", Name)
@@ -69,7 +68,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             // az staticwebapp users invite --name ...
-            var invitationLink = AzStaticWebAppUsersInvite(_ => _
+            var invitationLink = AzTasks.AzStaticWebAppUsersInvite(_ => _
                 .SetName(Name)
                 .SetAuthenticationProvider(Provider)
                 .SetRoles(Roles)
@@ -80,13 +79,38 @@ partial class Build : NukeBuild
             ClipboardService.SetText(invitationLink);
         });
 
+    AbsolutePath SourceDirectory => RootDirectory / "src";
+
+    Target Clean => _ => _
+        .Before(Compile, Test)
+        .Executes(() =>
+        {
+            SourceDirectory.GlobDirectories("*/bin", "*/obj").ForEach(DeleteDirectory);
+        });
+
+    [Solution(GenerateProjects = true)] readonly Solution Solution;
+    [Parameter] Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+
+    Target Compile => _ => _
+        .Executes(() =>
+        {
+            // dotnet publish src/SwaApp -c [configuration]
+            DotNetTasks.DotNetPublish(_ => _
+                .SetProject(Solution.SwaApp)
+                .SetConfiguration(Configuration));
+
+            DotNetTasks.DotNetPublish(_ => _
+                .SetProject(Solution.SwaApi)
+                .SetConfiguration(Configuration));
+        });
+
     Target Test => _ => _
         .Executes(() =>
         {
             // dotnet test SwaApi.Tests.csproj --logger trx;LogFileName=SwaApi.Tests.trx    --results-directory ... --configuration Release
             // dotnet test SwaApp.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx    --results-directory ... --configuration Release
             // dotnet test Something.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx    --results-directory ... --configuration Release
-            DotNetTest(_ => _
+            DotNetTasks.DotNetTest(_ => _
                 .ResetVerbosity()
                 .SetResultsDirectory(RootDirectory / "output" / "test-results")
                 .SetConfiguration(Configuration.Release)
@@ -95,36 +119,23 @@ partial class Build : NukeBuild
                     .AddLoggers($"trx;LogFileName={v.Name}.trx")));
         });
 
-    [Solution(GenerateProjects = true)] readonly Solution Solution;
     [Parameter] [Secret] readonly string ApiToken;
+    string Environment => Repository.IsOnMainOrMasterBranch() ? "production" : Repository.Branch;
 
     // nuke deploy
     Target Publish => _ => _
         .Requires(() => ApiToken != null || IsLocalBuild)
+        .DependsOn(Compile)
         .DependsOn(Test)
         .Executes(() =>
         {
-            // docker run --workdir /deploy
-            //            --platform linux/amd64 <image>
-            //            ...
-            //     /bin/staticsites/StaticSitesClient
-            //          run
-            //          --app src/SwaApp
-            //          --api src/SwaApi
-            //          --outputLocation wwwroot
-            //          --apiToken ***
-            //          --deploymentaction upload
-            DockerRun(_ => _
-                .SetImage("mcr.microsoft.com/appsvc/staticappsclient:stable")
-                .SetWorkdir("/deploy")
-                .AddVolume($"{RootDirectory}:/deploy")
-                .SetPlatform("linux/amd64")
-                .AddArgs((StaticSitesClientSettings _) => _
-                    .SetDeploymentAction("upload")
-                    .SetApiToken(ApiToken ?? GetApiToken())
-                    .SetApiLocation(RootDirectory.GetUnixRelativePathTo(Solution.SwaApi.Directory))
-                    .SetAppLocation(RootDirectory.GetUnixRelativePathTo(Solution.SwaApp.Directory))
-                    .SetOutputLocation("wwwroot")));
+            StaticWebAppsTasks.StaticWebAppsDeploy(_ => _
+                .SetConfigLocation(RootDirectory / "src")
+                .SetAppLocation(Solution.SwaApp.Directory)
+                .SetOutputLocation(Solution.SwaApp.Directory / "bin" / Configuration / "net6.0" / "publish" / "wwwroot")
+                .SetApiLocation(Solution.SwaApi.Directory / "bin" / Configuration / "net6.0" / "publish")
+                .SetEnvironment(Environment)
+                .SetDeploymentToken(ApiToken ?? GetApiToken()));
         });
 
     [Parameter] string CustomApexDomain;
@@ -140,11 +151,11 @@ partial class Build : NukeBuild
                $"--hostname {CustomWwwDomain}");
 
             var validationToken = Az("staticwebapp hostname show " +
-                            $"--name {Name} " +
-                            $"--resource-group {ResourceGroup} " +
-                            $"--hostname {CustomApexDomain} " +
-                            "--query validationToken")
-                    .StdToText();
+                                     $"--name {Name} " +
+                                     $"--resource-group {ResourceGroup} " +
+                                     $"--hostname {CustomApexDomain} " +
+                                     "--query validationToken")
+                .StdToText();
             Log.Information("Set a TXT record {ValidationToken} and hit [Enter] to continue...", validationToken);
             Console.ReadKey();
 

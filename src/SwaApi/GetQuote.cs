@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -22,10 +23,11 @@ namespace SwaApi
         public async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
-            ILogger log)
-            // [StaticWebAppsPrincipal] ClaimsPrincipal principal)
+            ILogger log,
+            [StaticWebAppsPrincipal] Task<ClaimsPrincipal> principalTask)
         {
-            var principal = await ClientPrincipal.ParseFromRequest(request);
+            var principal = await principalTask;
+            // var principal = await ClientPrincipal.ParseFromRequest(request);
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             if (principal is not { Identity.IsAuthenticated: true })
