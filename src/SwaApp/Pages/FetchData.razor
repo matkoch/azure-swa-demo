@@ -1,4 +1,5 @@
 ﻿@page "/fetchdata"
+@using System.ComponentModel.DataAnnotations
 @inject HttpClient Http
 
 <h1>Weather forecast</h1>
@@ -45,12 +46,16 @@ else
 
     public class WeatherForecast
     {
+        [Display(Name = "Date")]
         public DateTime Date { get; set; }
 
+        [Display(Name = "Temp. (C)")]
         public int TemperatureC { get; set; }
 
-        public string Summary { get; set; }
-
+        [Display(Name = "Temp. (F)")]
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+        [Display(Name = "Summary")]
+        public string Summary { get; set; }
     }
 }
