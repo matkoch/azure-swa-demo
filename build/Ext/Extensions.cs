@@ -11,17 +11,18 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Docker;
 using Nuke.Common.Utilities;
+using Serilog;
 
 partial class Build
 {
     public Build()
     {
-        StaticWebAppsTasks.StaticWebAppsLogger = (s, e) => Logger.Normal(e);
+        StaticWebAppsTasks.StaticWebAppsLogger = (s, e) => Log.Debug(e);
     }
 
     public void SaveParameter<T>(Expression<Func<T>> expression, T value = default)
     {
-        var parametersFile = NukeBuild.RootDirectory / ".nuke" / "parameters.json";
+        var parametersFile = RootDirectory / ".nuke" / "parameters.json";
         var json = File.ReadAllText(parametersFile);
         var jobject = JsonConvert.DeserializeObject<JObject>(json);
         var member = expression.GetMemberInfo();
