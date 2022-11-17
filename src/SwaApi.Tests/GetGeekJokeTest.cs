@@ -16,14 +16,14 @@ using Xunit.Abstractions;
 
 namespace SwaApi.Tests
 {
-    public class GetQuoteTest : TestBase
+    public class GetGeekJokeTest : TestBase
     {
-        private readonly GetQuote _sut;
+        private readonly GetGeekJoke _sut;
 
-        public GetQuoteTest(ITestOutputHelper outputHelper)
+        public GetGeekJokeTest(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
-            _sut = new GetQuote(HttpClient);
+            _sut = new GetGeekJoke(HttpClient);
         }
 
         [Fact]

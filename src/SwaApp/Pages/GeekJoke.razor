@@ -1,0 +1,31 @@
+@page "/geekjoke"
+@using Microsoft.AspNetCore.Authorization
+@using System.Threading
+@inject HttpClient Http
+@attribute [Authorize(Roles = "admin")]
+
+<h1>GeekJoke</h1>
+
+<p>@result</p>
+
+<button disabled=@gettingJoke @onclick="async () => await PrintJoke()">@ButtonText</button>
+
+@code {
+    private string result = "loading...";
+    private bool gettingJoke = true;
+
+    private string ButtonText => gettingJoke ? "Hold on!" : "So funny, another one!";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PrintJoke();
+    }
+
+    private async Task PrintJoke()
+    {
+        gettingJoke = true;
+        await Task.Delay(1000);
+        result = await Http.GetStringAsync("/api/GetGeekJoke");
+        gettingJoke = false;
+    }
+}

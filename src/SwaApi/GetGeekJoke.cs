@@ -10,16 +10,26 @@ using Newtonsoft.Json;
 
 namespace SwaApi
 {
-    public class GetQuote
+    public class GetGeekJoke
     {
         private readonly HttpClient _client;
 
-        public GetQuote(HttpClient client)
+        private readonly string[] _blacklistFlags =
+        {
+            "nsfw",
+            "religious",
+            "political",
+            "racist",
+            "sexist",
+            "explicit"
+        };
+
+        public GetGeekJoke(HttpClient client)
         {
             _client = client;
         }
 
-        [FunctionName("GetQuote")]
+        [FunctionName("GetGeekJoke")]
         public async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
@@ -28,7 +38,7 @@ namespace SwaApi
         {
             var principal = await principalTask;
             // var principal = await ClientPrincipal.ParseFromRequest(request);
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("C# HTTP trigger function processed a request");
 
             if (principal is not { Identity.IsAuthenticated: true })
                 return new UnauthorizedResult();
@@ -36,14 +46,13 @@ namespace SwaApi
             if (!principal.IsInRole("admin"))
                 return new ForbidResult(principal.Identity.AuthenticationType);
 
-            var response = await _client.GetAsync("https://quotes.rest/qod");
+            var uri = $"https://v2.jokeapi.dev/joke/Any?format=txt&type=single&blacklistFlags={string.Join(",", _blacklistFlags)}";
+            var response = await _client.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
                 return new OkObjectResult("Out of quotes for another hour! :(");
 
-            var content = await response.Content.ReadAsStringAsync();
-            dynamic json = JsonConvert.DeserializeObject(content);
-            string quote = json.contents.quotes[0].quote;
-            return new OkObjectResult(quote);
+            var joke = await response.Content.ReadAsStringAsync();
+            return new OkObjectResult(joke);
         }
     }
 }
