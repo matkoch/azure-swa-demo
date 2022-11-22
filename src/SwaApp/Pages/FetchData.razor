@@ -6,6 +6,15 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
+<SfGrid DataSource="_forecasts" AllowSorting="true" AllowFiltering="true">
+    <GridColumns>
+        <GridColumn Field=@nameof(WeatherForecast.Summary)></GridColumn>
+        <GridColumn Field=@nameof(WeatherForecast.Date) Format="d" TextAlign="TextAlign.Right"></GridColumn>
+        <GridColumn Field=@nameof(WeatherForecast.TemperatureC) TextAlign="TextAlign.Right"></GridColumn>
+        <GridColumn Field=@nameof(WeatherForecast.TemperatureF) TextAlign="TextAlign.Right"></GridColumn>
+    </GridColumns>
+</SfGrid>
+
 @if (_forecasts == null)
 {
     <p><em>Loading...</em></p>

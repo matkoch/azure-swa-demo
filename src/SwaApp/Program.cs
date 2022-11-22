@@ -1,13 +1,13 @@
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Azure.Functions.Authentication.WebAssembly;
+using Syncfusion.Blazor;
+using Syncfusion.Licensing;
 
 namespace SwaApp
 {
@@ -15,11 +15,20 @@ namespace SwaApp
     {
         public static async Task Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            SyncfusionLicenseProvider.RegisterLicense(config["SyncfusionLicenseKey2"]);
+
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddStaticWebAppsAuthentication();
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddSyncfusionBlazor();
 
             await builder.Build().RunAsync();
         }

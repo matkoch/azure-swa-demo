@@ -35,3 +35,4 @@ jobs:
         run: ./build.cmd Publish
         env:
           ApiToken: ${{ secrets.API_TOKEN }}
+          SyncfusionLicenseKey: ${{ secrets.SYNCFUSION_LICENSE_KEY }}

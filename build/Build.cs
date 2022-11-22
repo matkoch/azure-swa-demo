@@ -21,7 +21,7 @@ using static Nuke.Common.IO.FileSystemTasks;
     GitHubActionsImage.UbuntuLatest,
     On = new[] { GitHubActionsTrigger.Push },
     InvokedTargets = new[] { nameof(Publish) },
-    ImportSecrets = new[] { nameof(ApiToken) })]
+    ImportSecrets = new[] { nameof(ApiToken), "SyncfusionLicenseKey" })]
 [CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
 {
