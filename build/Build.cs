@@ -109,9 +109,9 @@ partial class Build : NukeBuild
         .After(Compile)
         .Executes(() =>
         {
-            // dotnet test SwaApi.Tests.csproj --logger trx;LogFileName=SwaApi.Tests.trx    --results-directory ... --configuration Release
-            // dotnet test SwaApp.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx    --results-directory ... --configuration Release
-            // dotnet test Something.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx    --results-directory ... --configuration Release
+            // dotnet test SwaApi.Tests.csproj    --logger trx;LogFileName=SwaApi.Tests.trx --results-directory ... --configuration Release
+            // dotnet test SwaApp.Tests.csproj    --logger trx;LogFileName=SwaApp.Tests.trx --results-directory ... --configuration Release
+            // dotnet test Something.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx --results-directory ... --configuration Release
             DotNetTasks.DotNetTest(_ => _
                 .ResetVerbosity()
                 .SetResultsDirectory(RootDirectory / "output" / "test-results")
@@ -122,6 +122,7 @@ partial class Build : NukeBuild
         });
 
     [Parameter] [Secret] readonly string ApiToken;
+
     string Environment => Repository.IsOnMainOrMasterBranch() ? "production" : Repository.Branch;
 
     // nuke deploy

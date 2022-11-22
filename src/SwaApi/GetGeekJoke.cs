@@ -49,7 +49,7 @@ namespace SwaApi
             var uri = $"https://v2.jokeapi.dev/joke/Any?format=txt&type=single&blacklistFlags={string.Join(",", _blacklistFlags)}";
             var response = await _client.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
-                return new OkObjectResult("Out of quotes for another hour! :(");
+                return new OkObjectResult("Out of jokes for another hour! :(");
 
             var joke = await response.Content.ReadAsStringAsync();
             return new OkObjectResult(joke);
