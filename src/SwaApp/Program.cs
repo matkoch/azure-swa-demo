@@ -21,7 +21,7 @@ namespace SwaApp
                 .AddEnvironmentVariables()
                 .Build();
 
-            SyncfusionLicenseProvider.RegisterLicense(config["SyncfusionLicenseKey2"]);
+            // SyncfusionLicenseProvider.RegisterLicense("");
 
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
