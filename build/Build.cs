@@ -100,6 +100,7 @@ partial class Build : NukeBuild
                 .SetProject(Solution.SwaApp)
                 .SetConfiguration(Configuration));
 
+            // dotnet publish src/SwaApi -c [configuration]
             DotNetTasks.DotNetPublish(_ => _
                 .SetProject(Solution.SwaApi)
                 .SetConfiguration(Configuration));
@@ -112,11 +113,12 @@ partial class Build : NukeBuild
             // dotnet test SwaApi.Tests.csproj    --logger trx;LogFileName=SwaApi.Tests.trx --results-directory ... --configuration Release
             // dotnet test SwaApp.Tests.csproj    --logger trx;LogFileName=SwaApp.Tests.trx --results-directory ... --configuration Release
             // dotnet test Something.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx --results-directory ... --configuration Release
+            var testProjects = Solution.GetProjects("*.Tests");
             DotNetTasks.DotNetTest(_ => _
                 .ResetVerbosity()
                 .SetResultsDirectory(RootDirectory / "output" / "test-results")
                 .SetConfiguration(Configuration)
-                .CombineWith(Solution.GetProjects("*.Tests"), (_, v) => _
+                .CombineWith(testProjects, (_, v) => _
                     .SetProjectFile(v)
                     .AddLoggers($"trx;LogFileName={v.Name}.trx")));
         });
