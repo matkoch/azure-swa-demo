@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SwaApp (HR)" type="RunDotNetWatch" factoryName="RunDotNetWatch">
+  <configuration default="false" name="SwaApp (Hot Reload)" type="RunDotNetWatch" factoryName="RunDotNetWatch">
     <option name="exePath" value="$USER_HOME$/.nuget/packages/microsoft.aspnetcore.components.webassembly.devserver/6.0.0/tools/blazor-devserver.dll" />
     <option name="programParameters" value="--applicationpath $PROJECT_DIR$/src/SwaApp/bin/Debug/net6.0/SwaApp.dll" />
     <option name="projectFilePath" value="$PROJECT_DIR$/src/SwaApp/SwaApp.csproj" />
