@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/nuke-build/nuke/master/source/Nuke.CodeGeneration/schema.json",
+  "$schema": "https://raw.githubusercontent.com/nuke-build/nuke/master/source/Nuke.Tooling.Generator/schema.json",
   "name": "Az",
   "officialUrl": "",
   "pathExecutable": "az",
@@ -7,7 +7,6 @@
     {
       "postfix": "StaticWebAppUsersInvite",
       "returnType": "string",
-      "preProcess": true,
       "definiteArgument": "staticwebapp users invite",
       "settingsClass": {
         "properties": [

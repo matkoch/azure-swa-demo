@@ -1,9 +1,7 @@
-// Generated from https://raw.githubusercontent.com/matkoch/SwaDemo2/master/build/StaticSitesClient.json
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Nuke.Common;
-using Nuke.Common.Execution;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools;
 using Nuke.Common.Utilities.Collections;
@@ -16,12 +14,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+
 /// <summary>
 ///   <p>For more details, visit the <a href="">official website</a>.</p>
 /// </summary>
 [PublicAPI]
 [ExcludeFromCodeCoverage]
-public static partial class StaticSitesClientTasks
+public partial class StaticSitesClientTasks
 {
     /// <summary>
     ///   Path to the StaticSitesClient executable.
@@ -30,13 +29,14 @@ public static partial class StaticSitesClientTasks
         ToolPathResolver.TryGetEnvironmentExecutable("STATICSITESCLIENT_EXE") ??
         GetToolPath();
     public static Action<OutputType, string> StaticSitesClientLogger { get; set; } = ProcessTasks.DefaultLogger;
+    public static Action<ToolSettings, IProcess> StaticSitesClientExitHandler { get; set; } = ProcessTasks.DefaultExitHandler;
     /// <summary>
     ///   <p>For more details, visit the <a href="">official website</a>.</p>
     /// </summary>
-    public static IReadOnlyCollection<Output> StaticSitesClient(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, bool? logTimestamp = null, string logFile = null, Func<string, string> outputFilter = null)
+    public static IReadOnlyCollection<Output> StaticSitesClient(ArgumentStringHandler arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, Action<OutputType, string> logger = null, Action<IProcess> exitHandler = null)
     {
-        using var process = ProcessTasks.StartProcess(StaticSitesClientPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, StaticSitesClientLogger, outputFilter);
-        process.AssertZeroExitCode();
+        using var process = ProcessTasks.StartProcess(StaticSitesClientPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, logger ?? StaticSitesClientLogger);
+        (exitHandler ?? (p => StaticSitesClientExitHandler.Invoke(null, p))).Invoke(process.AssertWaitForExit());
         return process.Output;
     }
     /// <summary>
@@ -73,7 +73,7 @@ public static partial class StaticSitesClientTasks
     {
         toolSettings = toolSettings ?? new StaticSitesClientSettings();
         using var process = ProcessTasks.StartProcess(toolSettings);
-        process.AssertZeroExitCode();
+        toolSettings.ProcessExitHandler.Invoke(toolSettings, process.AssertWaitForExit());
         return process.Output;
     }
     /// <summary>
@@ -158,7 +158,8 @@ public partial class StaticSitesClientSettings : ToolSettings
     ///   Path to the StaticSitesClient executable.
     /// </summary>
     public override string ProcessToolPath => base.ProcessToolPath ?? StaticSitesClientTasks.StaticSitesClientPath;
-    public override Action<OutputType, string> ProcessCustomLogger => StaticSitesClientTasks.StaticSitesClientLogger;
+    public override Action<OutputType, string> ProcessLogger => base.ProcessLogger ?? StaticSitesClientTasks.StaticSitesClientLogger;
+    public override Action<ToolSettings, IProcess> ProcessExitHandler => base.ProcessExitHandler ?? StaticSitesClientTasks.StaticSitesClientExitHandler;
     /// <summary>
     ///   Enables verbose logging.
     /// </summary>

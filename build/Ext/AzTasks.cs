@@ -2,7 +2,7 @@ using System;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
 
-public static partial class AzTasks
+partial class AzTasks
 {
     static string GetResult(IProcess process, AzStaticWebAppUsersInviteSettings toolSettings)
     {
@@ -15,6 +15,14 @@ public static partial class AzTasks
     }
 
     static void PreProcess(ref AzDeploymentGroupCreateSettings toolSettings)
+    {
+    }
+
+    static void PreProcess(ref AzStaticWebAppHostnameShowSettings toolSettings)
+    {
+    }
+
+    static void PreProcess(ref AzStaticWebAppHostnameSetSettings toolSettings)
     {
     }
 }

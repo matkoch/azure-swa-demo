@@ -22,7 +22,6 @@ using static Nuke.Common.IO.FileSystemTasks;
     On = new[] { GitHubActionsTrigger.Push },
     InvokedTargets = new[] { nameof(Publish) },
     ImportSecrets = new[] { nameof(ApiToken), "SyncfusionLicenseKey" })]
-[CheckBuildProjectConfigurations]
 partial class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -113,7 +112,7 @@ partial class Build : NukeBuild
             // dotnet test SwaApi.Tests.csproj    --logger trx;LogFileName=SwaApi.Tests.trx --results-directory ... --configuration Release
             // dotnet test SwaApp.Tests.csproj    --logger trx;LogFileName=SwaApp.Tests.trx --results-directory ... --configuration Release
             // dotnet test Something.Tests.csproj --logger trx;LogFileName=SwaApp.Tests.trx --results-directory ... --configuration Release
-            var testProjects = Solution.GetProjects("*.Tests");
+            var testProjects = Solution.GetAllProjects("*.Tests");
             DotNetTasks.DotNetTest(_ => _
                 .ResetVerbosity()
                 .SetResultsDirectory(RootDirectory / "output" / "test-results")

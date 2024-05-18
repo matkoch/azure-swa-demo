@@ -1,9 +1,7 @@
-// Generated from https://raw.githubusercontent.com/matkoch/azure-swa-demo/main/build/Ext/Az.json
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Nuke.Common;
-using Nuke.Common.Execution;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools;
 using Nuke.Common.Utilities.Collections;
@@ -16,13 +14,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+
 /// <summary>
 ///   <p>For more details, visit the <a href="">official website</a>.</p>
 /// </summary>
 [PublicAPI]
 [ExcludeFromCodeCoverage]
-public static partial class AzTasks
+[PathToolRequirement(AzPathExecutable)]
+public partial class AzTasks
+    : IRequirePathTool
 {
+    public const string AzPathExecutable = "az";
     /// <summary>
     ///   Path to the Az executable.
     /// </summary>
@@ -30,13 +32,14 @@ public static partial class AzTasks
         ToolPathResolver.TryGetEnvironmentExecutable("AZ_EXE") ??
         ToolPathResolver.GetPathExecutable("az");
     public static Action<OutputType, string> AzLogger { get; set; } = ProcessTasks.DefaultLogger;
+    public static Action<ToolSettings, IProcess> AzExitHandler { get; set; } = ProcessTasks.DefaultExitHandler;
     /// <summary>
     ///   <p>For more details, visit the <a href="">official website</a>.</p>
     /// </summary>
-    public static IReadOnlyCollection<Output> Az(string arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, Func<string, string> outputFilter = null)
+    public static IReadOnlyCollection<Output> Az(ArgumentStringHandler arguments, string workingDirectory = null, IReadOnlyDictionary<string, string> environmentVariables = null, int? timeout = null, bool? logOutput = null, bool? logInvocation = null, Action<OutputType, string> logger = null, Action<IProcess> exitHandler = null)
     {
-        using var process = ProcessTasks.StartProcess(AzPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, AzLogger, outputFilter);
-        process.AssertZeroExitCode();
+        using var process = ProcessTasks.StartProcess(AzPath, arguments, workingDirectory, environmentVariables, timeout, logOutput, logInvocation, logger ?? AzLogger);
+        (exitHandler ?? (p => AzExitHandler.Invoke(null, p))).Invoke(process.AssertWaitForExit());
         return process.Output;
     }
     /// <summary>
@@ -58,7 +61,7 @@ public static partial class AzTasks
         toolSettings = toolSettings ?? new AzStaticWebAppUsersInviteSettings();
         PreProcess(ref toolSettings);
         using var process = ProcessTasks.StartProcess(toolSettings);
-        process.AssertZeroExitCode();
+        toolSettings.ProcessExitHandler.Invoke(toolSettings, process.AssertWaitForExit());
         return (GetResult(process, toolSettings), process.Output);
     }
     /// <summary>
@@ -113,7 +116,7 @@ public static partial class AzTasks
         toolSettings = toolSettings ?? new AzDeploymentGroupCreateSettings();
         PreProcess(ref toolSettings);
         using var process = ProcessTasks.StartProcess(toolSettings);
-        process.AssertZeroExitCode();
+        toolSettings.ProcessExitHandler.Invoke(toolSettings, process.AssertWaitForExit());
         return process.Output;
     }
     /// <summary>
@@ -161,8 +164,9 @@ public static partial class AzTasks
     public static IReadOnlyCollection<Output> AzStaticWebAppHostnameSet(AzStaticWebAppHostnameSetSettings toolSettings = null)
     {
         toolSettings = toolSettings ?? new AzStaticWebAppHostnameSetSettings();
+        PreProcess(ref toolSettings);
         using var process = ProcessTasks.StartProcess(toolSettings);
-        process.AssertZeroExitCode();
+        toolSettings.ProcessExitHandler.Invoke(toolSettings, process.AssertWaitForExit());
         return process.Output;
     }
     /// <summary>
@@ -212,8 +216,9 @@ public static partial class AzTasks
     public static IReadOnlyCollection<Output> AzStaticWebAppHostnameShow(AzStaticWebAppHostnameShowSettings toolSettings = null)
     {
         toolSettings = toolSettings ?? new AzStaticWebAppHostnameShowSettings();
+        PreProcess(ref toolSettings);
         using var process = ProcessTasks.StartProcess(toolSettings);
-        process.AssertZeroExitCode();
+        toolSettings.ProcessExitHandler.Invoke(toolSettings, process.AssertWaitForExit());
         return process.Output;
     }
     /// <summary>
@@ -262,7 +267,8 @@ public partial class AzStaticWebAppUsersInviteSettings : ToolSettings
     ///   Path to the Az executable.
     /// </summary>
     public override string ProcessToolPath => base.ProcessToolPath ?? AzTasks.AzPath;
-    public override Action<OutputType, string> ProcessCustomLogger => AzTasks.AzLogger;
+    public override Action<OutputType, string> ProcessLogger => base.ProcessLogger ?? AzTasks.AzLogger;
+    public override Action<ToolSettings, IProcess> ProcessExitHandler => base.ProcessExitHandler ?? AzTasks.AzExitHandler;
     public virtual string Name { get; internal set; }
     public virtual AzAuthenticationProvider AuthenticationProvider { get; internal set; }
     public virtual IReadOnlyList<string> Roles => RolesInternal.AsReadOnly();
@@ -297,7 +303,8 @@ public partial class AzDeploymentGroupCreateSettings : ToolSettings
     ///   Path to the Az executable.
     /// </summary>
     public override string ProcessToolPath => base.ProcessToolPath ?? AzTasks.AzPath;
-    public override Action<OutputType, string> ProcessCustomLogger => AzTasks.AzLogger;
+    public override Action<OutputType, string> ProcessLogger => base.ProcessLogger ?? AzTasks.AzLogger;
+    public override Action<ToolSettings, IProcess> ProcessExitHandler => base.ProcessExitHandler ?? AzTasks.AzExitHandler;
     public virtual string ResourceGroup { get; internal set; }
     public virtual string TemplateFile { get; internal set; }
     public virtual IReadOnlyDictionary<string, string> Parameters => ParametersInternal.AsReadOnly();
@@ -326,7 +333,8 @@ public partial class AzStaticWebAppHostnameSetSettings : ToolSettings
     ///   Path to the Az executable.
     /// </summary>
     public override string ProcessToolPath => base.ProcessToolPath ?? AzTasks.AzPath;
-    public override Action<OutputType, string> ProcessCustomLogger => AzTasks.AzLogger;
+    public override Action<OutputType, string> ProcessLogger => base.ProcessLogger ?? AzTasks.AzLogger;
+    public override Action<ToolSettings, IProcess> ProcessExitHandler => base.ProcessExitHandler ?? AzTasks.AzExitHandler;
     public virtual string Name { get; internal set; }
     public virtual string ResourceGroup { get; internal set; }
     public virtual string Hostname { get; internal set; }
@@ -356,7 +364,8 @@ public partial class AzStaticWebAppHostnameShowSettings : ToolSettings
     ///   Path to the Az executable.
     /// </summary>
     public override string ProcessToolPath => base.ProcessToolPath ?? AzTasks.AzPath;
-    public override Action<OutputType, string> ProcessCustomLogger => AzTasks.AzLogger;
+    public override Action<OutputType, string> ProcessLogger => base.ProcessLogger ?? AzTasks.AzLogger;
+    public override Action<ToolSettings, IProcess> ProcessExitHandler => base.ProcessExitHandler ?? AzTasks.AzExitHandler;
     public virtual string Name { get; internal set; }
     public virtual string ResourceGroup { get; internal set; }
     public virtual string Hostname { get; internal set; }

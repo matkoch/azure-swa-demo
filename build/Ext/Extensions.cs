@@ -59,8 +59,7 @@ public static class Extensions
                     return c == ' ' && !(inDoubleQuotes || inSingleQuotes);
                 },
                 includeSplitCharacter: true)
-            .Select(x =>
-                StringExtensions.TrimMatchingDoubleQuotes(x.Trim()).TrimMatchingQuotes().Replace("\\\"", "\"").Replace("\\\'", "'"))
+            .Select(x => x.Trim().TrimMatchingDoubleQuotes().TrimMatchingSingleQuotes().Replace("\\\"", "\"").Replace("\\\'", "'"))
             .Where(x => !string.IsNullOrEmpty(x))
             .ToArray();
     }

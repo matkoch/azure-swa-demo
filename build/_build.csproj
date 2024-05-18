@@ -12,9 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="6.0.1" />
+    <PackageReference Include="Nuke.Common" Version="9999.0.0" />
     <PackageReference Include="TextCopy" Version="4.3.1" />
-<!--    <NukeSpecificationFiles Include="Ext\StaticWebApps.json" />-->
+<!--    <NukeSpecificationFiles Include="Ext\*.json" />-->
   </ItemGroup>
 
 </Project>
